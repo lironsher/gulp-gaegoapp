@@ -1,6 +1,7 @@
 # gulp-go
 
-[
+[![Build Status](https://travis-ci.org/lironsher/gulp-gaegoapp.svg?branch=master)](https://travis-ci.org/lironsher/gulp-gaegoapp)
+[![David DM](https://david-dm.org/lironsher/gulp-gaegoapp.png)](https://david-dm.org/lironsher/gulp-gaegoapp)
 
 `goapp serve / deploy` for gulp
 
