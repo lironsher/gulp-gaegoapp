@@ -1,25 +1,28 @@
 {
-  "name": "gulp-go",
-  "version": "1.0.1",
-  "description": "Simple process runner to start/stop/restart a `go run ...`",
+  "name": "gulp-gaegoapp",
+  "version": "1.0.0",
+  "description": "Simple process runner to serve / deploy GO Google appengine - `goapp %cmd%...`",
   "main": "index.js",
   "scripts": {
     "test": "make test"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:nowk/gulp-go.git"
+    "url": "git@github.com:lironsher/gulp-gaegoapp"
   },
   "keywords": [
     "Golang",
-    "run"
+    "run",
+    "goapp",
+    "GCP",
+    "Google App Engine"
   ],
-  "author": "Yung Hwa Kwon <yung.kwon@damncarousel.com>",
+  "author": "Liron Sher <lirons@lirons.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nowk/gulp-go/issues"
+    "url": "https://github.com/lironsher/gulp-gaegoapp/issues"
   },
-  "homepage": "https://github.com/nowk/gulp-go",
+  "homepage": "https://github.com/lironsher/gulp-gaegoapp",
   "devDependencies": {
     "chai": "^2.1.1",
     "gulp": "^3.8.11",

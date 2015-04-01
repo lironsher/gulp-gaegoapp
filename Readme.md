@@ -1,30 +1,37 @@
 # gulp-go
 
-[![Build Status](https://travis-ci.org/nowk/gulp-go.svg?branch=master)](https://travis-ci.org/nowk/gulp-go)
-[![David DM](https://david-dm.org/nowk/gulp-go.png)](https://david-dm.org/nowk/gulp-go)
+[
 
-`go run` for gulp
+`goapp serve / deploy` for gulp
 
 ## Install
 
-    npm install gulp-go
+    npm install gulp-gaegoapp
 
 ## Usage
 
     var gulp   = require("gulp");
-    var gulpgo = require("gulp-go");
+    var gulpgo = require("gulp-gogaegoapp");
 
     var go;
+    function out(prefix) {
+      prefix = (prefix || "");
+      return function(data) {
+          console.log(prefix, data.toString());
+    };
+    }
 
-    gulp.task("go-run", function() {
-      go = gulpgo.run("main.go", ["--arg1", "value1"], {cwd: __dirname});
+gulp.task('goserve', [], function() {
+    go = gulpgo.run("serve", ['build/'], {
+        cwd:       __dirname,
+        onStdout:  out(),
+        onStderr:  out("[error]"),
+        onClose:   out("close"),
+        onExit:    out("exit")
     });
+});
 
-    gulp.task("devs", ["go-run"], function() {
-      gulp.watch([__dirname+"/**/*.go"]).on("change", function() {
-        go.restart();
-      });
-    });
+
 
 ## License
 
