@@ -29,15 +29,16 @@ function addps(pid, go) {
 var fshut = function(callback) {
   var keys = Object.keys(ps);
   if (keys.length === 0) {
-    if ("function" === typeof callback) {
-      callback();
-    }
+    callback();
     return;
   }
 
   var go = ps[keys[0]];
   if (go) {
+    var pid = go.proc.pid;
+
     go.stop(function() {
+      delps(pid);      // delete from ps collection
       fshut(callback); // shutdown the next process
     });
   }
@@ -61,6 +62,7 @@ module.exports = {
     return ps;
   },
   run: function(main, args, opts) {
+  	log('Run Enter');
     var go = new GoRun(main, args, opts);
     return go.run();
   },
@@ -69,7 +71,8 @@ module.exports = {
 
 // GoRun is the runner class for a single `go run ...` process
 function GoRun(main, args, opts) {
-  this.main = main || "main.go";
+  log('GoRun Enter');
+  this.main = main;
   this.args = args || [];
   this.opts = opts || {};
 }
@@ -78,7 +81,7 @@ GoRun.prototype._spawn = function() {
   var args = Array.prototype.slice.call(arguments);
   log("starting process...");
 
-  return spawn("go", args, this.opts);
+  return spawn("goapp", args, this.opts);
 };
 
 var noop = function() {
@@ -86,7 +89,7 @@ var noop = function() {
 };
 
 GoRun.prototype.run = function() {
-  var args = ["run", this.main];
+  var args = [this.main];
   args = args.concat(this.args, Array.prototype.slice.call(arguments));
 
   var proc = this.proc = this._spawn.apply(this, args);
@@ -104,7 +107,6 @@ GoRun.prototype.run = function() {
 GoRun.prototype._stop = function(callback) {
   if (!!!this.proc.pid) {
     log("no pid:", "exit");
-
     callback();
     return;
   }
@@ -125,7 +127,6 @@ GoRun.prototype._stop = function(callback) {
         i++;
         if (i === len) {
           log("["+pid+"]", "process stopped");
-
           callback();
           return;
         }
@@ -139,14 +140,9 @@ GoRun.prototype._stop = function(callback) {
 };
 
 GoRun.prototype.stop = function(callback) {
-  if ("function" !== typeof callback) {
-    callback = noop;
-  }
-
   var pid = this.proc.pid;
   log("["+pid+"]", "stopping process...");
 
-  var self = this;
   var fn = function() {
     delps(pid);
 
@@ -157,12 +153,10 @@ GoRun.prototype.stop = function(callback) {
 };
 
 GoRun.prototype.restart = function() {
-  var pid = this.proc.pid;
-  log("["+pid+"]", "restarting process...");
-
   var self = this;
+  log("["+this.proc.pid+"]", "restarting process...");
+
   self.stop(function() {
     self.run();
   });
 };
-

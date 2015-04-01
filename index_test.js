@@ -50,9 +50,9 @@ describe("GoRun", function() {
   });
 
   it("starts a go run process", function() {
-    var go = new MyRun("mymain.go", ["--foo", "bar"]);
+    var go = new MyRun("serve", ["build/"]);
     assert.deepEqual(go, go.run());
-    assert.deepEqual(["run", "mymain.go", "--foo", "bar"], args);
+    assert.deepEqual(["serve", "build/"], args);
     assert.equal(start, 1);
   });
 
@@ -60,7 +60,7 @@ describe("GoRun", function() {
     var go = new MyRun("mymain.go", ["--foo", "bar"]);
     go.run("--baz", "qux", "--foo", "bar");
     assert.deepEqual([
-      "run", "mymain.go", "--foo", "bar", "--baz", "qux", "--foo", "bar"
+       "mymain.go", "--foo", "bar", "--baz", "qux", "--foo", "bar"
     ], args);
   });
 
@@ -71,7 +71,7 @@ describe("GoRun", function() {
   });
 
   it("stop stops and removes from global ps store", function() {
-    var go = new MyRun("main.go");
+    var go = new MyRun("serve");
     go.run();
     go.stop(function() {
       callback++;
@@ -89,7 +89,7 @@ describe("GoRun", function() {
     pid = 456; // change pid
 
     go.restart();
-    assert.deepEqual(["run", "mymain.go", "--foo", "bar"], args);
+    assert.deepEqual(["mymain.go", "--foo", "bar"], args);
     assert.equal(start, 2);
     assert.equal(stop, 1);
     assert.isUndefined(gulpgo.ps()[123]);
