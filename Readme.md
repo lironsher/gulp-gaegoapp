@@ -22,7 +22,8 @@
     };
     }
 
-gulp.task('goserve', [], function() {
+gulp.task('goserve', [], function() 
+{
       go = gulpgo.run("serve", ['build/'], {
           cwd:       __dirname,
           onStdout:  out(),
