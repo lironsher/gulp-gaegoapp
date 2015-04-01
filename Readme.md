@@ -23,13 +23,13 @@
     }
 
 gulp.task('goserve', [], function() {
-    go = gulpgo.run("serve", ['build/'], {
-        cwd:       __dirname,
-        onStdout:  out(),
-        onStderr:  out("[error]"),
-        onClose:   out("close"),
-        onExit:    out("exit")
-    });
+      go = gulpgo.run("serve", ['build/'], {
+          cwd:       __dirname,
+          onStdout:  out(),
+          onStderr:  out("[error]"),
+          onClose:   out("close"),
+          onExit:    out("exit")
+      });
 });
 
 
